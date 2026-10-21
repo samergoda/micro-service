@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: 'mysql:8.0'
+    container_name: orders-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'orders_db'
+      MYSQL_USER: 'myuser'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'verysecret'
+    ports:
+      - '3309:3306'
+    volumes:
+      - orders_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pverysecret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  orders_mysql_data:
