@@ -5,6 +5,8 @@ import com.orders.client.service.UsersService;
 import com.orders.dto.*;
 import com.orders.entity.Order;
 import com.orders.entity.OrderItem;
+import com.orders.event.OrderCreatedEvent;
+import com.orders.event.OrderEventPublisher;
 import com.orders.exception.OrderAlreadyExistsException;
 import com.orders.exception.ResourceNotFoundException;
 import com.orders.repository.OrderRepository;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final UsersService usersService;
+    private final OrderEventPublisher orderEventPublisher;
 
     @Override
     @Transactional(readOnly = true)
@@ -136,6 +141,15 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(request.getTotalAmount() != null ? request.getTotalAmount() : computedTotal);
 
         Order savedOrder = orderRepository.save(order);
+
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                savedOrder.getId(),
+                savedOrder.getUserId(),
+                "ORDER_CREATED"
+        );
+
+        orderEventPublisher.publishOrderCreated(event);
+
         return OrderResponse.fromEntity(savedOrder);
     }
 
