@@ -20,14 +20,18 @@ graph LR
     GW[Gateway] --> O[Orders Service]
     GW --> N[Notifications Service]
     GW --> U[Users Service]
-    O --> DB[Postgres]
-    N --> DB
-    U --> DB
+    O --> DB_O[MySQL (Orders DB)]
+    N --> DB_N[MySQL (Notifications DB)]
+    U --> DB_U[MySQL (Users DB)]
+    GW --> K[Kafka]
+    O --> K
+    N --> K
+    U --> K
 ```
 
 ## Prerequisites
 
-- **Java 17** (or compatible JDK)
+- **Java 27** (or compatible JDK)
 - **Maven 3.9+**
 - **Docker** & **Docker Compose** (for containerised run)
 - **Git** (to clone the repo)
