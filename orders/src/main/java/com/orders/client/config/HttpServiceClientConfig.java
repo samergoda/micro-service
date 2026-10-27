@@ -13,7 +13,7 @@ import org.springframework.web.service.registry.ImportHttpServices;
 @Slf4j
 public class HttpServiceClientConfig {
 
-    @Value("${users.service.url:http://localhost:8082/api/users}")
+    @Value("${users.service.url:http://localhost:8081/api/users}")
     private String usersServiceUrl;
 
     @Bean

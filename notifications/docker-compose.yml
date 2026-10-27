@@ -58,10 +58,11 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      APP_KAFKA_NOTIFICATIONS_TOPIC: notifications
-      SERVER_PORT: 8080
+      SPRING_KAFKA_CONSUMER_GROUP_ID: notifications
+      APP_KAFKA_ORDER_TOPIC: order-created
+      SERVER_PORT: 8083
     ports:
-      - "8080:8080"
+      - "8083:8083"
     restart: unless-stopped
 
 volumes:

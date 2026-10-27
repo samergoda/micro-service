@@ -145,12 +145,29 @@ public class OrderServiceImpl implements OrderService {
         OrderCreatedEvent event = new OrderCreatedEvent(
                 savedOrder.getId(),
                 savedOrder.getUserId(),
-                "ORDER_CREATED"
+                "ORDER_CREATED",
+                summarizeProducts(savedOrder)
         );
 
         orderEventPublisher.publishOrderCreated(event);
 
         return OrderResponse.fromEntity(savedOrder);
+    }
+
+    /**
+     * Builds a human-readable product summary for the order-created event,
+     * e.g. "Widget" or "Widget (+2 more)". Returns null when there are no items.
+     */
+    private String summarizeProducts(Order order) {
+        List<OrderItem> items = order.getItems();
+        if (items == null || items.isEmpty()) {
+            return null;
+        }
+        String first = items.get(0).getProductName();
+        if (items.size() == 1) {
+            return first;
+        }
+        return first + " (+" + (items.size() - 1) + " more)";
     }
 
     @Override

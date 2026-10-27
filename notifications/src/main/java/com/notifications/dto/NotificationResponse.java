@@ -1,6 +1,6 @@
 package com.notifications.dto;
 
-import com.notifications.model.Notification;
+import com.notifications.entity.Notification;
 
 import java.time.Instant;
 

@@ -2,7 +2,7 @@ package com.notifications.consumer;
 
 import com.notifications.dto.NotificationEvent;
 import com.notifications.dto.OrderEvent;
-import com.notifications.model.Notification;
+import com.notifications.entity.Notification;
 import com.notifications.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

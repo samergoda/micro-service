@@ -27,7 +27,7 @@ public class LoggingAspect {
     }
 
     /** Any public method on the service layer. */
-    @Pointcut("execution(public * com.notifications.service.NotificationService.*(..))")
+    @Pointcut("execution(public * com.notifications.service..*(..))")
     public void serviceLayer() {
     }
 
